@@ -1,0 +1,9 @@
+Django==5.2.5
+djangorestframework==3.16.1
+djoser==2.3.3
+dotenv==0.9.9
+pillow==11.3.0
+
+# Для тестирования
+pytest==8.4.1
+pytest-django==4.11.1
