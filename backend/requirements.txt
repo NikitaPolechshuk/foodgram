@@ -2,7 +2,8 @@ Django==5.2.5
 djangorestframework==3.16.1
 djoser==2.3.3
 pillow==11.3.0
-psycopg2==2.9.6
+libpq-dev
+psycopg2-binary==2.9.9
 
 
 # Для тестирования
