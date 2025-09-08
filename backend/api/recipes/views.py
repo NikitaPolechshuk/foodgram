@@ -163,8 +163,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         # Создаем текстовый файл
         content = "Список покупок:\n\n"
         for item in shopping_data:
-            content += f"{item['name']} - {item['total_amount']} " \
-                       f"{item['unit']}\n"
+            content += f"{item['name']} - {item['total_amount']} "
+            content += f"{item['unit']}\n"
 
         response = HttpResponse(content, content_type='text/plain')
         response['Content-Disposition'] = 'attachment; ' \
