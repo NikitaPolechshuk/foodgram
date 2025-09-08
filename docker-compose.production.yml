@@ -14,8 +14,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    networks:
-      - foodgram-network
   backend:
     image: maxkulmon/foodgram_backend
     env_file: .env
@@ -24,9 +22,6 @@ services:
       - media:/app/media
     depends_on:
       - db:
-          condition: service_healthy 
-    networks: 
-      - foodgram-network
   frontend:
     image: maxkulmon/foodgram_frontend 
     command: cp -r /app/build/. /static/
@@ -42,9 +37,3 @@ services:
       - media:/media
     depends_on:
       - backend 
-    networks:
-      - foodgram-network
-
-networks:
-  foodgram-network:
-    driver: bridge      
