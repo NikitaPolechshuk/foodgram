@@ -9,11 +9,6 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
   backend:
     image: maxkulmon/foodgram_backend
     env_file: .env
@@ -21,8 +16,7 @@ services:
       - static:/static
       - media:/app/media
     depends_on:
-      db:
-        condition: service_healthy
+      - db
   frontend:
     image: maxkulmon/foodgram_frontend 
     command: cp -r /app/build/. /static/
