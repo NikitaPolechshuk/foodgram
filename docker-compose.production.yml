@@ -23,7 +23,10 @@ services:
       - static:/static
       - media:/app/media
     depends_on:
-      - db
+      - db:
+          condition: service_healthy 
+    networks: 
+      - foodgram-network
   frontend:
     image: maxkulmon/foodgram_frontend 
     command: cp -r /app/build/. /static/
@@ -39,3 +42,9 @@ services:
       - media:/media
     depends_on:
       - backend 
+    networks:
+      - foodgram-network
+
+networks:
+  foodgram-network:
+    driver: bridge      
