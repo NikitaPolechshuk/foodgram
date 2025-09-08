@@ -15,6 +15,11 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://maxkittygram.zapto.org',
+    'https://89.169.187.194',
+]
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 INSTALLED_APPS = [
