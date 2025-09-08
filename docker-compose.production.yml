@@ -21,7 +21,8 @@ services:
       - static:/static
       - media:/app/media
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   frontend:
     image: maxkulmon/foodgram_frontend 
     command: cp -r /app/build/. /static/
