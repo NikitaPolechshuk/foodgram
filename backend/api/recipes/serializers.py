@@ -117,9 +117,9 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
                 missing_fields.append('image')
 
             if missing_fields:
+                missing_fields_string = ', '.join(missing_fields)
                 raise serializers.ValidationError({
-                    field: ['Это поле обязательно.']
-                    for field in missing_fields
+                    f"Эти поля обязательны: ({missing_fields_string})"
                 })
         return attrs
 
