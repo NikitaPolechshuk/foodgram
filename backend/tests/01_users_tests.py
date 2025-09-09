@@ -206,9 +206,10 @@ class TestSubscriptions:
         assert response2.status_code == status.HTTP_400_BAD_REQUEST, (
             'Повторная подписка должна возвращать ошибку 400'
         )
-        assert 'errors' in response2.data or 'non_field_errors' in response2.data, (
-            'Ответ должен содержать описание ошибки'
-        )
+        assert (
+            'errors' in response2.data
+            or 'non_field_errors' in response2.data
+        ), 'Ответ должен содержать описание ошибки'
 
     def test_self_subscription_fails(self, authenticated_client):
         """Нельзя подписаться на самого себя."""
@@ -220,9 +221,10 @@ class TestSubscriptions:
         assert response.status_code == status.HTTP_400_BAD_REQUEST, (
             'Подписка на самого себя должна возвращать ошибку 400'
         )
-        assert 'errors' in response.data or 'non_field_errors' in response.data, (
-            'Ответ должен содержать описание ошибки'
-        )
+        assert (
+            'errors' in response.data
+            or 'non_field_errors' in response.data
+        ), 'Ответ должен содержать описание ошибки'
 
     def test_unsubscribe_success(self, authenticated_client, create_user):
         """Успешная отписка от пользователя."""
@@ -242,11 +244,12 @@ class TestSubscriptions:
         # Затем отписываемся (DELETE запрос на тот же URL)
         response_unsubscribe = client.delete(url)
 
-        assert response_unsubscribe.status_code == status.HTTP_204_NO_CONTENT, (
-            'Отписка должна возвращать статус 204'
-        )
+        assert (
+            response_unsubscribe.status_code == status.HTTP_204_NO_CONTENT
+        ), 'Отписка должна возвращать статус 204'
 
-    def test_unsubscribe_without_subscription_fails(self, authenticated_client, create_user):
+    def test_unsubscribe_without_subscription_fails(self, authenticated_client,
+                                                    create_user):
         """Отписка без предварительной подписки должна вернуть ошибку."""
         client, subscriber = authenticated_client
         author = create_user(
