@@ -112,7 +112,8 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
                 missing_fields.append('ingredients')
             if 'tags' not in attrs:
                 missing_fields.append('tags')
-            if self.context['request'] != 'PATCH' and 'image' not in attrs:
+            if (self.context['request'].method != 'PATCH'
+               and 'image' not in attrs):
                 missing_fields.append('image')
 
             if missing_fields:
