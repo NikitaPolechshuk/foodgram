@@ -103,7 +103,8 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         """Общая валидация для всех операций."""
-        # Для PATCH запросов проверяем, что все обязательные поля присутствуют
+        # Для запросов проверяем, что все обязательные поля присутствуют
+        # image для PATCH может отсутствовать
         if self.context['request'].method in ['PATCH', 'PUT']:
             missing_fields = []
 
@@ -111,7 +112,7 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
                 missing_fields.append('ingredients')
             if 'tags' not in attrs:
                 missing_fields.append('tags')
-            if 'image' not in attrs:
+            if self.context['request'] != 'PATCH' and 'image' not in attrs:
                 missing_fields.append('image')
 
             if missing_fields:
