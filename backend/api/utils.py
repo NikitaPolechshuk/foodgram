@@ -1,8 +1,10 @@
 import base64
-import uuid
 import os
-from django.core.files.base import ContentFile
+import uuid
+
 from django.conf import settings
+from django.core.files.base import ContentFile
+
 from foodgram.constants import RECIEP_IMG_DIR
 
 

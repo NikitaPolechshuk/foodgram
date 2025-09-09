@@ -1,24 +1,28 @@
 import os
 from pathlib import Path
+
 from .constants import PAGINATION_NUM
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'SECRET')
 
-DEBUG = False
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = [
-    '89.169.187.194',
-    'maxkittygram.zapto.org',
-    '127.0.0.1',
-    'localhost',
-]
+# Получаем ALLOWED_HOSTS из .env
+allowed_hosts_str = os.getenv('ALLOWED_HOSTS', '')
+if allowed_hosts_str:
+    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_str.split(',')]
+else:
+    ALLOWED_HOSTS = []
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://maxkittygram.zapto.org',
-    'https://89.169.187.194',
-]
+# Получаем CSRF_TRUSTED_ORIGINS из .env
+csrf_trusted_origins_str = os.getenv('CSRF_TRUSTED_ORIGINS', '')
+if csrf_trusted_origins_str:
+    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_trusted_origins_str.split(',')]
+else:
+    CSRF_TRUSTED_ORIGINS = []
+
 
 AUTH_USER_MODEL = 'users.CustomUser'
 

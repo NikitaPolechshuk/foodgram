@@ -1,18 +1,15 @@
-from rest_framework import permissions, viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.pagination import LimitOffsetPagination
+from api.recipes.serializers import RecipeMinifiedSerializer
+from api.users.serializers import (AvatarSerializer, SubscriptionSerializer,
+                                   UserCreateSerializer, UserSerializer)
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.serializers import SetPasswordSerializer
-from api.users.serializers import (
-    UserSerializer,
-    UserCreateSerializer,
-    AvatarSerializer,
-    SubscriptionSerializer,)
-from api.recipes.serializers import RecipeMinifiedSerializer
-from users.models import Subscription
 from recipes.models import Recipe
+from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
+from users.models import Subscription
 
 User = get_user_model()
 

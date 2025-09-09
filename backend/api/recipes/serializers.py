@@ -1,8 +1,8 @@
-from rest_framework import serializers
-from recipes.models import (
-    Recipe, Ingredient, Tag, IngredientInRecipe, Favorite, ShoppingCart)
 from api.users.serializers import UserSerializer
 from api.utils import save_base64_image
+from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
+                            ShoppingCart, Tag)
+from rest_framework import serializers
 
 
 class TagSerializer(serializers.ModelSerializer):

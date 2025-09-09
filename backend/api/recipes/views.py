@@ -1,18 +1,18 @@
-from rest_framework import viewsets, permissions, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from django.http import HttpResponse, Http404
+from api.recipes.serializers import (IngredientSerializer,
+                                     RecipeCreateUpdateSerializer,
+                                     RecipeListSerializer,
+                                     RecipeMinifiedSerializer, TagSerializer)
+from django.db.models import F, Sum
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.db.models import Sum, F
+from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
+from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 
-from recipes.models import Recipe, Ingredient, Tag, Favorite, ShoppingCart
-from api.recipes.serializers import (
-    RecipeListSerializer, RecipeCreateUpdateSerializer,
-    IngredientSerializer, TagSerializer, RecipeMinifiedSerializer
-)
-from ..permissions import RecipePermission
 from ..filters import RecipeFilter
+from ..permissions import RecipePermission
 
 
 def recipe_short_link_redirect(request, short_link):
