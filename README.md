@@ -1,4 +1,7 @@
-Находясь в папке infra, выполните команду docker-compose up. При выполнении этой команды контейнер frontend, описанный в docker-compose.yml, подготовит файлы, необходимые для работы фронтенд-приложения, а затем прекратит свою работу.
+FoodGram 🍕
+Сайт с рецептами на основе современного стека технологий:
 
-По адресу http://localhost изучите фронтенд веб-приложения, а по адресу http://localhost/api/docs/ — спецификацию API.
-
+https://img.shields.io/badge/-Django-092E20?logo=django&logoColor=white
+https://img.shields.io/badge/DRF-red?logo=django&logoColor=white
+https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white
+https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white
