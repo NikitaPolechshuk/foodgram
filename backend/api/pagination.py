@@ -1,7 +1,6 @@
+from core.constants import PAGINATION_NUM
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-
-from core.constants import PAGINATION_NUM
 
 
 class CustomPageNumberPagination(PageNumberPagination):

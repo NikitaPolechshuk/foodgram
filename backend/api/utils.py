@@ -2,12 +2,11 @@ import base64
 import os
 import uuid
 
+from core.constants import RECIEP_IMG_DIR
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db.models import F, Sum
 from recipes.models import ShoppingCart
-
-from core.constants import RECIEP_IMG_DIR
 
 
 def save_base64_image(base64_string):

@@ -3,7 +3,6 @@ from api.recipes.serializers import (IngredientSerializer,
                                      RecipeListSerializer,
                                      RecipeMinifiedSerializer, TagSerializer)
 from api.utils import shopping_list
-
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag

@@ -1,8 +1,7 @@
+import core.constants as constants
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-
-import core.constants as constants
 
 
 class CustomUser(AbstractUser):
