@@ -2,11 +2,12 @@ from api.recipes.serializers import (IngredientSerializer,
                                      RecipeCreateUpdateSerializer,
                                      RecipeListSerializer,
                                      RecipeMinifiedSerializer, TagSerializer)
-from django.db.models import F, Sum
-from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from api.utils import shopping_list
+
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
-from rest_framework import permissions, status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -17,14 +18,10 @@ from ..permissions import RecipePermission
 
 def recipe_short_link_redirect(request, short_link):
     """Редирект по короткой ссылке на страницу рецепта."""
-
-    try:
-        recipe = get_object_or_404(Recipe, short_link=short_link)
-        # Перенаправляем на страницу рецепта в API
+    recipe = Recipe.objects.filter(short_link=short_link).first()
+    if recipe:
         return redirect(f'/recipes/{recipe.id}')
-    except Http404:
-        print("Recipe not found, redirecting to home")
-        return redirect('/')
+    return redirect('/')
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -34,7 +31,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    permission_classes = [permissions.AllowAny]  # Доступно всем
+    permission_classes = [AllowAny]  # Доступно всем
     pagination_class = None  # Отключаем пагинацию для тегов
 
 
@@ -151,21 +148,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
         """Скачать список покупок."""
-        shopping_data = ShoppingCart.objects.filter(
-            user=request.user
-        ).values(
-            name=F('recipe__ingredient_list__ingredient__name'),
-            unit=F('recipe__ingredient_list__ingredient__measurement_unit')
-        ).annotate(
-            total_amount=Sum('recipe__ingredient_list__amount')
-        ).order_by('name')
-
-        # Создаем текстовый файл
-        content = "Список покупок:\n\n"
-        for item in shopping_data:
-            content += f"{item['name']} - {item['total_amount']} "
-            content += f"{item['unit']}\n"
-
+        content = shopping_list(request.user)
         response = HttpResponse(content, content_type='text/plain')
         response['Content-Disposition'] = 'attachment; ' \
                                           'filename="shopping_list.txt"'

@@ -1,5 +1,6 @@
 import csv
 import os
+from pathlib import Path
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
@@ -30,9 +31,9 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        base_path = options['path']
-        self.load_ingredients(f'{base_path}ingredients.csv')
-        self.load_tags(f'{base_path}tags.csv')
+        base_path = Path(options['path'])
+        self.load_ingredients(base_path / 'ingredients.csv')
+        self.load_tags(base_path / 'tags.csv')
 
     def load_ingredients(self, file_path):
         """Загрузка ингридентов."""

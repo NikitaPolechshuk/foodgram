@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils.text import slugify
 
-import foodgram.constants as constants
+import core.constants as constants
 
 User = get_user_model()
 
@@ -35,7 +35,15 @@ class Tag(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            # Генерируем базовый slug из названия
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            # Проверяем уникальность slug и добавляем суффикс если нужно
+            while Tag.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
 
@@ -55,6 +63,7 @@ class Ingredient(models.Model):
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
         ordering = ['name']
+        unique_together = ['name', 'measurement_unit']
 
     def __str__(self):
         return f'{self.name} ({self.measurement_unit})'
@@ -65,7 +74,8 @@ class Recipe(models.Model):
 
     name = models.CharField(
         'Название',
-        max_length=constants.NAME_MAX_LENGTH
+        max_length=constants.NAME_MAX_LENGTH,
+        db_index=True  # индекс для поиска по названию
     )
     author = models.ForeignKey(
         User,
@@ -97,7 +107,8 @@ class Recipe(models.Model):
     )
     created = models.DateTimeField(
         'Дата создания',
-        auto_now_add=True
+        auto_now_add=True,
+        db_index=True  # Добавляем индекс для оптимизации запросов
     )
     short_link = models.CharField(
         'Короткая ссылка',

@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from .constants import PAGINATION_NUM
+from core.constants import PAGINATION_NUM
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,7 +56,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'foodgram.pagination.CustomPageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'api.pagination.CustomPageNumberPagination',
     'PAGE_SIZE': PAGINATION_NUM,
 }
 

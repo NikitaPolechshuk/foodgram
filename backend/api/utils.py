@@ -4,8 +4,10 @@ import uuid
 
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.db.models import F, Sum
+from recipes.models import ShoppingCart
 
-from foodgram.constants import RECIEP_IMG_DIR
+from core.constants import RECIEP_IMG_DIR
 
 
 def save_base64_image(base64_string):
@@ -33,3 +35,24 @@ def save_base64_image(base64_string):
 
     except (ValueError, AttributeError, TypeError) as e:
         raise ValueError(f"Ошибка обработки изображения: {str(e)}")
+
+
+def shopping_list(user):
+    """Формируем список покупок."""
+
+    shopping_data = ShoppingCart.objects.filter(
+        user=user
+    ).values(
+        name=F('recipe__ingredient_list__ingredient__name'),
+        unit=F('recipe__ingredient_list__ingredient__measurement_unit')
+    ).annotate(
+        total_amount=Sum('recipe__ingredient_list__amount')
+    ).order_by('name')
+
+    # Создаем текстовый файл
+    content = "Список покупок:\n\n"
+    for item in shopping_data:
+        content += f"{item['name']} - {item['total_amount']} "
+        content += f"{item['unit']}\n"
+
+    return content

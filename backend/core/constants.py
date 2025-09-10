@@ -1,8 +1,8 @@
 # Дериктории с изображениями
 AVATARS_DIR = 'avatars/'
-RECIEP_IMG_DIR = 'recieps/'
+RECIEP_IMG_DIR = 'recipes/'
 
-# Пагинация
+# Пагинация (испортируется в settings)
 PAGINATION_NUM = 6
 
 # Переменные для моделей

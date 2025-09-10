@@ -1,9 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.db import models
 
-import foodgram.constants as constants
+import core.constants as constants
 
 
 class CustomUser(AbstractUser):
@@ -13,7 +12,6 @@ class CustomUser(AbstractUser):
         'email address',
         unique=True,
         max_length=254,
-        validators=[validate_email],
         error_messages={
             'unique': 'Пользователь с таким email уже существует.',
         }
@@ -42,7 +40,7 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-        ordering = ['id']
+        ordering = ['username']
         indexes = [  # Добавляем индексы
             models.Index(fields=['email']),
             models.Index(fields=['username']),
