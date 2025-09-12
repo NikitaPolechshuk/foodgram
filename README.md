@@ -20,6 +20,7 @@ git clone https://github.com/NikitaPolechshuk/foodgram
 
 ### Запуск в контейнерах Docker:
 ```
+cd foodgram
 sudo docker compose up
 ```
 
