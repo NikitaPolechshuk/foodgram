@@ -18,27 +18,28 @@ git clone https://github.com/NikitaPolechshuk/foodgram
 
 ### Создайте в корне папки файл .env : [Пример](https://github.com/NikitaPolechshuk/foodgram/blob/main/.env.example)
 
-### Создайте миграции и соберите статику:
-```
-python manage.py migrate
-python manage.py collectstatic
-cp -r /app/collected_static/. /static/static/    
-```
-
-### Загрузите ингредиенты и тэги:
-```
-python manage.py load_data
-```
-
 ### Запуск в контейнерах Docker:
 ```
 sudo docker compose up
 ```
 
+### Создайте миграции и соберите статику в контейнере backend:
+```
+sudo docker compose exec backend python manage.py migrate
+sudo docker compose exec backend python manage.py collectstatic
+sudo docker compose exec backend cp -r /app/collected_static/. /static/static/    
+```
+
+### Загрузите ингредиенты и тэги:
+```
+sudo docker compose exec backend python manage.py load_data
+```
+
+
 ## Основные эндпоинты API
 
 ### 🔐 Аутентификация
-- `POST /api/auth/token/login/` - Получение токена
+- `POST /api/auth/token/login/` - Получене токена
 - `POST /api/auth/token/logout/` - Удаление токена
 
 ### 👥 Пользователи
@@ -77,6 +78,6 @@ sudo docker compose up
 - `GET /api/ingredients/` - Список ингредиентов (с поиском)
 - `GET /api/ingredients/{id}/` - Получение ингредиента
 
-Полная документация по API доступна после развертывания проекта по адресу /api/docs
+Полная документация по API доступна после развертывания проекта по адресу /api/docs/
 
 
